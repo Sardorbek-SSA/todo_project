@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-do List</title>
+</head>
+<body>
+    <h1>Vazifalar ro'yxati</h1>
+
+    <form method="POST" action="{% url 'add_task' %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Yangi vazifa yozing...">
+        <button type="submit">Qo'shish</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }} - 
+                {% if task.completed %}
+                    ✅
+                {% else %}
+                    ❌
+                {% endif %}
+
+                <!-- Tugallash/tugallanmagan qilish -->
+                <a href="{% url 'toggle_task' task.id %}">[Toggle]</a>
+
+                <!-- O‘chirish -->
+                <a href="{% url 'delete_task' task.id %}" style="color:red;">[Delete]</a>
+            </li>
+        {% empty %}
+            <li>Hozircha vazifa yo‘q</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
